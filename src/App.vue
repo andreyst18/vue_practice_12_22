@@ -7,13 +7,13 @@
             src="./assets/img/car.jpg"
             alt="car"
             :class="styles"
-            :style="getSize"
+            :style="getStyle"
             v-if="isVisible"
                        
           />
-          <div v-else>
-            <div>Здесь должна быть фотография</div>
-          </div>
+          <h3 v-else>
+            Здесь должна быть фотография
+          </h3>
         </div>
         <div class="main__main">
           <h2 class="main__title">Фильтры</h2>
@@ -27,20 +27,21 @@
             </button>
             <button
               class="main__btn"
+              @click="styles.shadow = !styles.shadow"
+              :class="{ 'main__btn-active': styles.shadow }"
+            >
+              Тень
+            </button>
+            <button
+              class="main__btn"
               @click="styles.border = !styles.border"
               :class="{ 'main__btn-active': styles.border }"
             >
               Рамка
             </button>
-            <button
-              class="main__btn"
-              @click="styles.small = !styles.small"
-              :class="{ 'main__btn-active': styles.small }"
-            >
-              Уменьшить
-            </button>
+            
             <button class="main__btn" @click="isVisible = !isVisible">
-              Скрыть изображение
+              {{ isVisible ? 'Спрятать' : 'Показать' }}
             </button>
             <div class="main__change-size change-size">
               <h3 class="change-size__title">Размер</h3>
@@ -48,6 +49,11 @@
               <input type="range" min="0" max="333.33" @input="imgHeight = $event.target.value" :value="imgHeight"><br>
               <h4 class="change-size__subtitle">Ширина: {{ imgWidth }}</h4>
               <input type="range" min="0" max="500" @input="imgWidth = $event.target.value" :value="imgWidth">
+            </div>
+            <div class="main__rotate">
+              <h3 class="rotate__title">Поворот</h3>
+              <h4 class="rotate__subtitle">Угол: {{ imgAngle }}</h4>
+              <input type="range" min="0" max="360" @input="imgAngle = $event.target.value" value="0">
             </div>
           </div>
         </div>
@@ -66,20 +72,23 @@ export default {
         sepia: false,
         border: false,
         small: false,
+        shadow: false
       },
 
       isVisible: true,
       imgWidth: 500,
       imgHeight: 333.33,
+      imgAngle: 0
       
     };
   },
 
   computed: {
-    getSize() {
+    getStyle() {
       return {
         width: this.imgWidth + 'px',
-        height: this.imgHeight + 'px'
+        height: this.imgHeight + 'px',
+        transform: `rotate(${this.imgAngle}deg)`
       }
     }
     
@@ -95,7 +104,10 @@ $img-width: 500px;
 $img-height: 333.33px;
 
 *,
-body {
+html,
+body,
+div,
+img {
   font-family: "Kanit", sans-serif;
   margin: 0;
   padding: 0;
@@ -116,11 +128,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #b2b6b2;
+    flex-shrink: 0;
   }
 
   &__img img {
     width: $img-width;
   }
+
 
   &__main {
     margin-left: 50px;
@@ -144,9 +159,21 @@ body {
     &-active {
       background: #2bdd2b;
     }
+
+    
+
   }
 
-  .sepia {
+  &__change-size {
+      margin-bottom: 20px;
+    }
+
+ 
+
+
+}
+
+ .sepia {
     filter: sepia(1);
   }
 
@@ -157,5 +184,8 @@ body {
   .small {
     width: $img-width / 2;
   }
-}
+
+  .shadow {
+    box-shadow: 15px 5px 20px gray ;
+  }
 </style>
