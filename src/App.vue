@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <div class="wrapper">
-      <h2 class="title">Диваны</h2>
+      <div class="header">
+        <h2 class="title">Диваны</h2>
+        <my-input
+          @show-input="showInput"
+        />
+      </div>
+      
       <ProductList/>
     </div>
   </div>
@@ -9,12 +15,20 @@
 
 <script>
 import ProductList from '@/components/ProductList.vue'
+import MyInput from '@/components/MyInput.vue'
 
 export default {
   name: 'youtube-task',
 
   components: {
-    ProductList
+    ProductList,
+    MyInput
+  },
+
+  methods: {
+    showInput(text) {
+      console.log(text)
+    }
   }
   
 };
@@ -39,7 +53,13 @@ body {
   margin: 50px auto;
 }
 
-.title {
+.header {
+  display: flex;
+  align-items: center;
   margin-bottom: 20px;
+}
+
+.title {
+  margin-right: 20px;
 }
 </style>

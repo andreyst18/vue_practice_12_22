@@ -1,36 +1,52 @@
 <template>
   <div class="product-card">
-    <img 
-      :src="photo" 
-      class="product-card__img"
-    >
+    <img :src="photo" class="product-card__img" />
     <div class="product-card__title">{{ title }}</div>
     <div class="product-card__price">{{ price }}р.</div>
     <div class="product-card__balance">Доступно {{ balance }} шт.</div>
     <div>
-      <button 
-        class="product-card__btn"
-        @click="$emit('show-index', index)"
-      >Добавить в корзину</button>
+      <my-button 
+        title="Добавить в корзину" 
+        :index="index"
+        @show-index="$emit('show-index', index)"
+      ></my-button>
     </div>
     
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'product-card',
-    props: {
-      title: String,
-      price: Number,
-      balance: {
-        type: Number,
-        required: true
-      }, 
-      photo: String,
-      index: Number
+import MyButton from "@/components/MyButton.vue";
+
+export default {
+  name: "product-card",
+  props: {
+    title: String,
+    price: Number,
+    balance: {
+      type: Number,
+      required: true,
+    },
+    photo: String,
+    index: Number,
+  },
+
+  data() {
+    return {
+      counter: 0
+    }
+  },
+
+  components: {
+    MyButton,
+  },
+
+  methods: {
+    alert(event) {
+      console.log(event)
     }
   }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +58,7 @@
   padding: 20px;
   margin-right: 15px;
   margin-bottom: 15px;
-  
+
   &__img {
     width: 300px;
     align-self: center;
@@ -54,20 +70,10 @@
   }
 
   &__title,
- &__price,
- &__balance {
+  &__price,
+  &__balance {
     font-weight: 600;
     margin-bottom: 15px;
   }
-
-  &__btn {
-    padding: 10px 20px;
-    border: none;
-    background: rgb(247, 68, 68);
-    border-radius: 10px;
-    color: #fff;
-    cursor: pointer;
-  }
 }
-
 </style>
