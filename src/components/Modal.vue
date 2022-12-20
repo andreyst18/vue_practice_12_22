@@ -29,6 +29,7 @@
 
 <script>
 import Close from '@/components/Close.vue'
+import checkComplete from '../mixins/checkComplete'
 
 export default {
   name: "Modal",
@@ -38,6 +39,7 @@ export default {
   components: {
     Close
   },
+  mixins: [checkComplete],
   data() {
     return {
       text: "new text 11",
@@ -48,19 +50,11 @@ export default {
       this.$emit('close-modal')
     },
 
-    checkComplete(e) {
-      const current = this.$refs.mod__body
-      // console.log(this.$refs.mod__body.scrollTop)
-      if (current.scrollTop + current.clientHeight === current.scrollHeight) {
-        console.log('end')
-        this.$emit('complete')
-      }
-    }
   },
 
   mounted() {
     const current = this.$refs.mod__body
-    current.scrollTop = current.scrollHeight
+    current.scrollTop = current.scrollHeight - 250
   }
 
 
